@@ -2,5 +2,6 @@
 {
     class Cell
     {
+        public string Occupant;
     }
 }
