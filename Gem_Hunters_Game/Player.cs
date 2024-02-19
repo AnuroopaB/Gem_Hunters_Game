@@ -1,5 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
+﻿//Player class
 namespace Assignment2
 {
     class Player

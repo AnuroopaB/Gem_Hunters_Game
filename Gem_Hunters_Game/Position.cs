@@ -1,4 +1,5 @@
-﻿namespace Assignment2
+﻿//Position class
+namespace Assignment2
 {
     class Position
     {

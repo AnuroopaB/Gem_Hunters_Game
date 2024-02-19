@@ -1,4 +1,5 @@
-﻿namespace Assignment2
+﻿//Cell class
+namespace Assignment2
 {
     class Cell
     {
