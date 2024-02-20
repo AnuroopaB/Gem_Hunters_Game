@@ -1,4 +1,7 @@
 ﻿//Player class
+using System.ComponentModel.Design;
+using System.Numerics;
+
 namespace Assignment2
 {
     class Player
@@ -9,6 +12,11 @@ namespace Assignment2
 
         public string Move(char direction) 
         {
+            int row = position.X;
+            int column = position.Y;
+
+           
+            
             return ("HI");
         }
     }
