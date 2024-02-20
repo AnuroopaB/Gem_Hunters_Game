@@ -48,7 +48,48 @@ namespace Assignment2
         public Boolean IsValidMove(Player player, char direction)
         {
             Boolean moveCheck = false;
-            
+            int x_axis = player.position.X;
+            int y_axis = player.position.Y;
+
+            if (direction == 'U' || direction == 'u')
+            {
+                x_axis -= 1;
+            }
+            if (direction == 'D' || direction == 'd')
+            {
+                x_axis += 1;
+            }
+            if (direction == 'R' || direction == 'r')
+            {
+                y_axis += 1;
+            }
+            if (direction == 'L' || direction == 'l')
+            {
+                y_axis -= 1;
+            }
+
+
+            if (direction != 'U' && direction != 'u' && direction != 'D' && direction != 'd' && direction != 'R' && direction != 'r' && direction != 'L' && direction != 'l')
+            {
+                Console.WriteLine("Wrong movement!!! Try again.");
+                moveCheck = false;
+            }
+            else if (Grid[x_axis, y_axis].Occupant=="O")
+            {
+                Console.WriteLine("Oops, there is an obstacle, please make another move.");
+                moveCheck = false;
+            }
+            else if (x_axis < 0 || x_axis > 5 || y_axis < 0 || y_axis > 5)
+            {
+                Console.WriteLine($"Invalid movement! Cannot move to {direction} direction. Try again next time.");
+                moveCheck = false;
+            }
+            else
+            {   
+                player.position = new Position(x_axis, y_axis);
+                player.Move(direction);
+                moveCheck = true;
+            }
             return moveCheck;
         }
         public int CollectGem(Player player)
