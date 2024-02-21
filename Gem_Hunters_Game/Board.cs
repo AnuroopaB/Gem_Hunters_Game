@@ -103,7 +103,11 @@ namespace Assignment2
         }
         public void CollectGem(Player player)
         {
-            
+            if(Grid[player.position.X, player.position.Y].Occupant == "G")
+            {
+                player.GemCount++;
+                Console.WriteLine("Woo-hoo, you got a GEM!");
+            }
         }
     }
 }
