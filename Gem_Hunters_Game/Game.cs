@@ -9,7 +9,7 @@ namespace Assignment2
         public Player player1;
         public Player player2;
         public Player CurrentTurn;
-        public int TotalTurns = 29;
+        public int TotalTurns = 0;
 
         //Constructor for initializing the game with a board and two players.
         public Game()
@@ -39,35 +39,30 @@ namespace Assignment2
         }
         public void SwitchTurn()
         {
-            for(int i = 0; i < TotalTurns; i++)
-            {
+            char direction;
+            for (int i = 0; i < 30; i++)
+            {   
                 if(i%2 == 0)
                 {
-                    loop1:
-                    Console.Write("Player 1's Turn: ");
-                    char direction1 = char.Parse(Console.ReadLine());
-                    if(board.IsValidMove(player1, direction1))
-                    {
-                        board.Display();
-                    }
-                    else
-                    {
-                        goto loop1;
-                    }
+
+                    CurrentTurn = player1;
                 }
                 else
                 {
-                    loop2:
-                    Console.Write("Player 2's Turn: ");
-                    char direction2 = char.Parse(Console.ReadLine());
-                    if(board.IsValidMove(player2, direction2))
-                    {
-                        board.Display(); ;
-                    }
-                    else
-                    {
-                        goto loop2;
-                    }
+                     CurrentTurn = player2;
+                }
+                loop1:
+                Console.Write($"\n{CurrentTurn.Name}'s Turn: ");
+                direction = char.Parse(Console.ReadLine());
+                if (board.IsValidMove(CurrentTurn, direction))
+                {
+                    //CurrentTurn.Move(direction, board);
+                    board.Display();
+                    TotalTurns++;
+                }
+                else
+                {
+                    goto loop1;
                 }
             }
         }

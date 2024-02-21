@@ -8,16 +8,13 @@ namespace Assignment2
     {
         public string Name;
         public Position position;
-        public int GemCount;
+        public int GemCount = 0;
 
-        public string Move(char direction) 
+        public void Move(char direction) 
         {
             int row = position.X;
             int column = position.Y;
-
-           
             
-            return ("HI");
         }
     }
 }

@@ -1,6 +1,4 @@
 ﻿//Board class
-using System.Runtime.Intrinsics.X86;
-using static System.Collections.Specialized.BitVector32;
 
 namespace Assignment2
 {
@@ -47,9 +45,11 @@ namespace Assignment2
         }
         public Boolean IsValidMove(Player player, char direction)
         {
-            Boolean moveCheck = false;
-            int x_axis = player.position.X;
-            int y_axis = player.position.Y;
+            bool moveCheck = false;
+            int old_x_axis = player.position.X;
+            int old_y_axis = player.position.Y;
+            int x_axis = old_x_axis;
+            int y_axis = old_y_axis;
 
             if (direction == 'U' || direction == 'u')
             {
@@ -71,7 +71,12 @@ namespace Assignment2
 
             if (direction != 'U' && direction != 'u' && direction != 'D' && direction != 'd' && direction != 'R' && direction != 'r' && direction != 'L' && direction != 'l')
             {
-                Console.WriteLine("Wrong movement!!! Try again.");
+                Console.WriteLine("Invalid direction!!! Try again.");
+                moveCheck = false;
+            }
+            else if (x_axis < 0 || x_axis > 5 || y_axis < 0 || y_axis > 5)
+            {
+                Console.WriteLine($"Wrong movement! Cannot move to {direction} direction. Try again.");
                 moveCheck = false;
             }
             else if (Grid[x_axis, y_axis].Occupant=="O")
@@ -79,22 +84,26 @@ namespace Assignment2
                 Console.WriteLine("Oops, there is an obstacle, please make another move.");
                 moveCheck = false;
             }
-            else if (x_axis < 0 || x_axis > 5 || y_axis < 0 || y_axis > 5)
+            else if (Grid[x_axis, y_axis].Occupant == "P1" || Grid[x_axis, y_axis].Occupant == "P2")
             {
-                Console.WriteLine($"Invalid movement! Cannot move to {direction} direction. Try again next time.");
+                Console.WriteLine("Watch out, please make another move.");
                 moveCheck = false;
             }
             else
             {   
-                player.position = new Position(x_axis, y_axis);
                 player.Move(direction);
+                CollectGem(player);
+                String oldOccupant = Grid[old_x_axis, old_y_axis].Occupant;
+                Grid[player.position.X, player.position.Y].Occupant = oldOccupant;
+                Grid[old_x_axis, old_y_axis].Occupant = "-";
                 moveCheck = true;
             }
+            
             return moveCheck;
         }
-        public int CollectGem(Player player)
+        public void CollectGem(Player player)
         {
-            return 0;
+            
         }
     }
 }
