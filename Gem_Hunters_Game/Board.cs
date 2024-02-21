@@ -28,7 +28,6 @@ namespace Assignment2
                 }
             }
             gemMedian = gemInBoard/2.0;
-            Console.WriteLine(gemMedian);
         }
         //Method for displaying the board.
         public void Display()

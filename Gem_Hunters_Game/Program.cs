@@ -14,6 +14,7 @@
                 "5. Player with the most gems collected will be winner.\n" +
                 "6. Both the players win, if the game ends in a tie.\n" +
                 "******************************************************************\n");
+            game:
             Console.WriteLine("Press ENTER to start the game...");
             Console.ReadKey();
             Console.WriteLine("\nGAME STARTS NOW!\n");
@@ -21,6 +22,12 @@
             //Constructor and methods can be called.
             Game game = new Game();
             game.Start();
+            Console.Write("\nThankyou for playing the game.\nDo you want to play again? (Yes/No) : ");
+            string userInput = Console.ReadLine();
+            if (userInput.ToLower() == "yes")
+            {
+                goto game;
+            }
 
         }
     }

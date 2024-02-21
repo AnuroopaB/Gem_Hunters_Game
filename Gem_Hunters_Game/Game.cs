@@ -1,5 +1,4 @@
 ﻿//Game class
-using System.Numerics;
 
 namespace Assignment2
 {
@@ -50,7 +49,7 @@ namespace Assignment2
                 direction = char.Parse(Console.ReadLine());
                 if (board.IsValidMove(CurrentTurn, direction))
                 {
-                    //CurrentTurn.Move(direction, board);
+                    Console.Write("\n");
                     board.Display();
                     TotalTurns++;
                 }
@@ -59,6 +58,7 @@ namespace Assignment2
                     goto loop1;
                 }
             }
+            Console.WriteLine("\n"+AnnounceWinner());
         }
         public Boolean IsGameOver()
         {
@@ -76,7 +76,20 @@ namespace Assignment2
         }
         public string AnnounceWinner()
         {
-            return ("U won");
+            string result;
+            if(player1.GemCount > player2.GemCount)
+            {
+                result = $"Hurray!!! {player1.Name} won the game. Congratulations!";
+            }
+            else if (player2.GemCount > player1.GemCount)
+            {
+                result = $"Hurray!!! {player2.Name} won the game. Congratulations!";
+            }
+            else
+            {
+                result = $"Its a tie! {player1.Name} and {player2.Name} won the game. Congratulations!";
+            }
+            return (result);
         }
     }
 }
