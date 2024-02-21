@@ -7,20 +7,28 @@ namespace Assignment2
         
         public Cell[,] Grid = new Cell[6, 6];
         public string[,] b1 = { { "P1", "-", "-", "O", "-", "-" }, { "-", "G", "-", "-", "O", "-" }, { "O", "-", "-", "G", "-", "-" }, { "G", "-", "-", "-", "-", "O" }, { "-", "O", "-", "G", "-", "-" }, { "-", "-", "G", "-", "-", "P2" } };
-       
+        public int gemInBoard = 0;
+        public double gemMedian;
+        public bool gemCheck = false;
+
         Cell cell = new Cell();
 
         //Constructor for initializing the board with players, gems, and obstacles.
         public Board()
         {
-
             for (int i = 0; i < 6; i++)
             {
                 for (int j = 0; j < 6; j++)
                 {
                     Grid[i,j] = cell.setOccupant(Grid[i, j], b1[i, j]);
+                    if (b1[i, j] == "G")
+                    {
+                        gemInBoard++;
+                    }
                 }
             }
+            gemMedian = gemInBoard/2.0;
+            Console.WriteLine(gemMedian);
         }
         //Method for displaying the board.
         public void Display()
@@ -107,7 +115,25 @@ namespace Assignment2
             {
                 player.GemCount++;
                 Console.WriteLine("Woo-hoo, you got a GEM!");
+                gemInBoard--;
+                if (player.GemCount > gemMedian)
+                {
+                    gemCheck = true;
+                }
             }
+        }
+        public bool CheckGemInBoard()
+        {
+            bool isGemInBoard = true;
+            if (gemCheck)
+            {
+                isGemInBoard = false;
+            }
+            if(gemInBoard  == 0)
+            {
+                isGemInBoard= false;
+            }
+            return isGemInBoard;
         }
     }
 }

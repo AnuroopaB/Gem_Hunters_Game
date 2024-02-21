@@ -29,20 +29,14 @@ namespace Assignment2
             player2.Name = "P2";
             player2.position = new Position(5, 5);
             player2.GemCount = 0;
-            if(IsGameOver()){
-                AnnounceWinner();
-            }
-            else
-            {
-                SwitchTurn();
-            }
+            SwitchTurn();
         }
         public void SwitchTurn()
         {
             char direction;
-            for (int i = 0; i < 30; i++)
+            while (!IsGameOver())
             {   
-                if(i%2 == 0)
+                if(TotalTurns%2 == 0)
                 {
 
                     CurrentTurn = player1;
@@ -69,6 +63,14 @@ namespace Assignment2
         public Boolean IsGameOver()
         {
             Boolean check = false;
+            if (!board.CheckGemInBoard())
+            {
+                check = true;
+            }
+            if (TotalTurns >= 30)
+            {
+                check = true;
+            }
             return check;
 
         }
