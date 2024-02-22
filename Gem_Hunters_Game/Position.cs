@@ -6,6 +6,7 @@ namespace Assignment2
         public int X;
         public int Y;
 
+        //Constructor for updating the position co-ordinates
         public Position(int x, int y)
         {
             this.X = x;

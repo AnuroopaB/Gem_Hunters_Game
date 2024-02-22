@@ -1,5 +1,4 @@
 ﻿//Game class
-
 namespace Assignment2
 {
     class Game
@@ -18,18 +17,22 @@ namespace Assignment2
             player2 = new Player();
         }
 
-        //Method for starting the game, displaying the board, and alternates player turns.
+        //Method for starting the game and displaying the board.
         public void Start()
         {
-            board.Display();
-            player1.Name = "P1";
+            Console.Write("\nEnter name for Player 1: ");
+            player1.Name = Console.ReadLine();
             player1.position = new Position(0,0);
             player1.GemCount = 0;
-            player2.Name = "P2";
+            Console.Write("Enter name for Player 2: ");
+            player2.Name = Console.ReadLine();
             player2.position = new Position(5, 5);
             player2.GemCount = 0;
+            Console.WriteLine($"\n{player1.Name.ToUpper()} [P1] vs {player2.Name.ToUpper()} [P2]\n");
+            board.Display();
             SwitchTurn();
         }
+        //Method for switching between Player1 and Player2 turns.
         public void SwitchTurn()
         {
             char direction;
@@ -58,11 +61,12 @@ namespace Assignment2
                     goto loop1;
                 }
             }
-            Console.WriteLine("\n"+AnnounceWinner());
+            Console.WriteLine("\n***"+AnnounceWinner()+"***");
         }
-        public Boolean IsGameOver()
+        //Method to check if the game has reached its end condition.
+        public bool IsGameOver()
         {
-            Boolean check = false;
+            bool check = false;
             if (!board.CheckGemInBoard())
             {
                 check = true;
@@ -74,6 +78,7 @@ namespace Assignment2
             return check;
 
         }
+        //Method for identifying and announcing the winner based on GemCount.
         public string AnnounceWinner()
         {
             string result;

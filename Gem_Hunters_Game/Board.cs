@@ -6,10 +6,11 @@ namespace Assignment2
     {
         
         public Cell[,] Grid = new Cell[6, 6];
-        public string[,] b1 = { { "P1", "-", "-", "O", "-", "-" }, { "-", "G", "-", "-", "O", "-" }, { "O", "-", "-", "G", "-", "-" }, { "G", "-", "-", "-", "-", "O" }, { "-", "O", "-", "G", "-", "-" }, { "-", "-", "G", "-", "-", "P2" } };
+        public string[,] b1 = { { "P1", "-", "-", "O", "-", "-" }, { "-", "G", "G", "-", "O", "-" }, { "O", "-", "-", "G", "-", "-" }, { "G", "-", "-", "-", "-", "O" }, { "-", "O", "-", "G", "-", "-" }, { "-", "-", "G", "-", "-", "P2" } };
         public int gemInBoard = 0;
         public double gemMedian;
         public bool gemCheck = false;
+        public int highlightPlayer = 0;
 
         Cell cell = new Cell();
 
@@ -41,6 +42,10 @@ namespace Assignment2
                     {
                         Console.Write("|  " + Grid[i, j].Occupant + " ");
                     }
+                    else if (Grid[i, j].Occupant == "*P1" || Grid[i, j].Occupant == "*P2")
+                    {
+                        Console.Write("| " + Grid[i, j].Occupant + " ");
+                    }
                     else
                     {
                         Console.Write("|  " + Grid[i, j].Occupant + "  ");
@@ -50,6 +55,8 @@ namespace Assignment2
             }
             Console.WriteLine("-------------------------------------");
         }
+
+        //Method to validate the move.
         public Boolean IsValidMove(Player player, char direction)
         {
             bool moveCheck = false;
@@ -101,26 +108,52 @@ namespace Assignment2
                 player.Move(direction);
                 CollectGem(player);
                 String oldOccupant = Grid[old_x_axis, old_y_axis].Occupant;
-                Grid[player.position.X, player.position.Y].Occupant = oldOccupant;
+                if (highlightPlayer == 1)
+                {
+                    if (oldOccupant.Contains('*'))
+                    {
+                        Grid[player.position.X, player.position.Y].Occupant = oldOccupant;
+                        highlightPlayer = 2;
+                    }
+                    else
+                    {
+                        Grid[player.position.X, player.position.Y].Occupant = "*" + oldOccupant;
+                        highlightPlayer = 2;
+                    }
+                }
+                else if (highlightPlayer == 2 && oldOccupant.Contains('*'))
+                {
+                    Grid[player.position.X, player.position.Y].Occupant = oldOccupant.Substring(1);
+                }
+                else
+                {
+                    Grid[player.position.X, player.position.Y].Occupant = oldOccupant;
+                }
                 Grid[old_x_axis, old_y_axis].Occupant = "-";
                 moveCheck = true;
             }
             
             return moveCheck;
         }
+
+        //Method to check if the player's new position contains a gem and updates the player's GemCount.
         public void CollectGem(Player player)
         {
             if(Grid[player.position.X, player.position.Y].Occupant == "G")
             {
                 player.GemCount++;
-                Console.WriteLine("Woo-hoo, you got a GEM!");
+                Console.WriteLine($"Woo-hoo, {player.Name} got a GEM!");
                 gemInBoard--;
+                highlightPlayer = 1;
                 if (player.GemCount > gemMedian)
                 {
                     gemCheck = true;
                 }
             }
         }
+
+        //Method to check if the board contains Gem;
+        //Useful in game over conditions.
         public bool CheckGemInBoard()
         {
             bool isGemInBoard = true;

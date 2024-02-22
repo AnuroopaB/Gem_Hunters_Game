@@ -13,22 +13,26 @@
                 "4. A player can collect the gem on their way.\n" +
                 "5. Player with the most gems collected will be winner.\n" +
                 "6. Both the players win, if the game ends in a tie.\n" +
-                "******************************************************************\n");
-            game:
-            Console.WriteLine("Press ENTER to start the game...");
+                "******************************************************************");
+            Console.Write("\nPress ENTER to start the game...");
             Console.ReadKey();
-            Console.WriteLine("\nGAME STARTS NOW!\n");
+            game:
+            Console.WriteLine("\n\nGAME STARTS NOW!");
             //Creating object for class Game to start the game;
             //Constructor and methods can be called.
             Game game = new Game();
             game.Start();
-            Console.Write("\nThankyou for playing the game.\nDo you want to play again? (Yes/No) : ");
+            //User decision to continue or quit the game.
+            Console.Write("\nThankyou for playing the game.\n\nDo you want to play again? (Yes/No) : ");
             string userInput = Console.ReadLine();
             if (userInput.ToLower() == "yes")
             {
                 goto game;
             }
-
+            else
+            {
+                Console.WriteLine("\nBye! Come back soon.\n");
+            }
         }
     }
 }

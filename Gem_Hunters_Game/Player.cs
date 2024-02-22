@@ -1,7 +1,4 @@
 ﻿//Player class
-using System.ComponentModel.Design;
-using System.Numerics;
-
 namespace Assignment2
 {
     class Player
@@ -10,6 +7,7 @@ namespace Assignment2
         public Position position;
         public int GemCount = 0;
 
+        //Method for updating the player's position based on the input direction.
         public void Move(char direction) 
         {
             int row = position.X;
