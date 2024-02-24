@@ -1,35 +1,65 @@
 ﻿//Board class
 
+using System.Drawing;
+
 namespace Assignment2
 {
     class Board
     {
-        
+
         public Cell[,] Grid = new Cell[6, 6];
-        public string[,] b1 = { { "P1", "-", "-", "O", "-", "-" }, { "-", "G", "G", "-", "O", "-" }, { "O", "-", "-", "G", "-", "-" }, { "G", "-", "-", "-", "-", "O" }, { "-", "O", "-", "G", "-", "-" }, { "-", "-", "G", "-", "-", "P2" } };
-        public int gemInBoard = 0;
-        public double gemMedian;
-        public bool gemCheck = false;
+        string[,] boardSkeleton = { { "P1", "-", "-", "-", "-", "-" }, { "-", "-", "-", "-", "-", "-" }, { "-", "-", "-", "-", "-", "-" }, { "-", "-", "-", "-", "-", "-" }, { "-", "-", "-", "-", "-", "-" }, { "-", "-", "-", "-", "-", "P2" } };
+        int gemInBoard;
+        double gemMedian;
+        bool gemCheck = false;
         public int highlightPlayer = 0;
+
+        Random random = new Random();
 
         Cell cell = new Cell();
 
         //Constructor for initializing the board with players, gems, and obstacles.
         public Board()
         {
+            gemInBoard = random.Next(1, 8);
+            int ObstaclesInBoard = random.Next(1, 8);
+            RandomPlacement(gemInBoard, 'G');
+            RandomPlacement(ObstaclesInBoard, 'O');
+
             for (int i = 0; i < 6; i++)
             {
                 for (int j = 0; j < 6; j++)
                 {
-                    Grid[i,j] = cell.setOccupant(Grid[i, j], b1[i, j]);
-                    if (b1[i, j] == "G")
-                    {
-                        gemInBoard++;
-                    }
+                    Grid[i, j] = cell.setOccupant(Grid[i, j], boardSkeleton[i, j]);
                 }
             }
-            gemMedian = gemInBoard/2.0;
+            gemMedian = gemInBoard / 2.0;
         }
+        
+        //Method for randomly placing Obstacles and Gems each time in board
+        private void RandomPlacement(int total, char symbol) {
+            for (int i = 0; i < total; i++)
+            {
+                int row = random.Next(6);
+                int col = random.Next(6);
+                if (boardSkeleton[row, col] == "-")
+                {
+                    if (symbol == 'O' && ((boardSkeleton[0,1] == "O" && row == 1 && col == 0) || (boardSkeleton[1, 0] == "O" && row == 0 && col == 1) || (boardSkeleton[4, 5] == "O" && row == 5 && col == 4) || (boardSkeleton[5, 4] == "O" && row == 4 && col == 5)))
+                    {
+                        i--;
+                    }
+                    else
+                    {
+                        boardSkeleton[row, col] = symbol.ToString();
+                    }
+                }
+                else
+                {
+                    i--;
+                }
+            }
+        }
+
         //Method for displaying the board.
         public void Display()
         {
@@ -62,77 +92,32 @@ namespace Assignment2
             bool moveCheck = false;
             int old_x_axis = player.position.X;
             int old_y_axis = player.position.Y;
-            int x_axis = old_x_axis;
-            int y_axis = old_y_axis;
-
-            if (direction == 'U' || direction == 'u')
-            {
-                x_axis -= 1;
-            }
-            if (direction == 'D' || direction == 'd')
-            {
-                x_axis += 1;
-            }
-            if (direction == 'R' || direction == 'r')
-            {
-                y_axis += 1;
-            }
-            if (direction == 'L' || direction == 'l')
-            {
-                y_axis -= 1;
-            }
-
-
+            player.position.ValidPosition(direction);
             if (direction != 'U' && direction != 'u' && direction != 'D' && direction != 'd' && direction != 'R' && direction != 'r' && direction != 'L' && direction != 'l')
             {
                 Console.WriteLine("Invalid direction!!! Try again.");
                 moveCheck = false;
             }
-            else if (x_axis < 0 || x_axis > 5 || y_axis < 0 || y_axis > 5)
+            else if (!player.position.isValidPosition)
             {
                 Console.WriteLine($"Wrong movement! Cannot move to {direction} direction. Try again.");
                 moveCheck = false;
             }
-            else if (Grid[x_axis, y_axis].Occupant=="O")
+            else if (Grid[player.position.coordinates[0], player.position.coordinates[1]].Occupant=="O")
             {
                 Console.WriteLine("Oops, there is an obstacle, please make another move.");
                 moveCheck = false;
             }
-            else if (Grid[x_axis, y_axis].Occupant == "P1" || Grid[x_axis, y_axis].Occupant == "P2")
+            else if (Grid[player.position.coordinates[0], player.position.coordinates[1]].Occupant == "P1" || Grid[player.position.coordinates[0], player.position.coordinates[1]].Occupant == "P2")
             {
                 Console.WriteLine("Watch out, please make another move.");
                 moveCheck = false;
             }
             else
-            {   
-                player.Move(direction);
-                CollectGem(player);
-                String oldOccupant = Grid[old_x_axis, old_y_axis].Occupant;
-                if (highlightPlayer == 1)
-                {
-                    if (oldOccupant.Contains('*'))
-                    {
-                        Grid[player.position.X, player.position.Y].Occupant = oldOccupant;
-                        highlightPlayer = 2;
-                    }
-                    else
-                    {
-                        Grid[player.position.X, player.position.Y].Occupant = "*" + oldOccupant;
-                        highlightPlayer = 2;
-                    }
-                }
-                else if (highlightPlayer == 2 && oldOccupant.Contains('*'))
-                {
-                    Grid[player.position.X, player.position.Y].Occupant = oldOccupant.Substring(1);
-                }
-                else
-                {
-                    Grid[player.position.X, player.position.Y].Occupant = oldOccupant;
-                }
-                Grid[old_x_axis, old_y_axis].Occupant = "-";
+            {
                 moveCheck = true;
             }
-            
+            player.position.isValidPosition = true;
             return moveCheck;
         }
 
