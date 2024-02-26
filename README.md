@@ -1,7 +1,9 @@
 Gem Hunter Game is a project created for playing aconsole-based 2D game called "Gem Hunters" where players compete to collect the most gems within a set number of turns.
 
+Video Link: https://conestogac.zoom.us/rec/share/kdx-38DURp7ACvFgbTDAvKDl6DqF07_iPr8KjlHTdeuNRirkLTzxwWjlwzlnvfnY.or-jwVYaeJUpena3?startTime=1708912852000
+
 Elements:
-•	A 6x6 square board.
+•	A dynamic 6x6 square board.
 •	Players: Player 1and Player.
 •	Gems: Randomly placed on the board and denoted by ‘G’.
 •	Obstacles: Randomly placed on the board and denoted by ‘O’.
