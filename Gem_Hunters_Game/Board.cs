@@ -110,7 +110,7 @@ namespace Assignment2
             }
             else if (Grid[player.position.coordinates[0], player.position.coordinates[1]].Occupant == "P1" || Grid[player.position.coordinates[0], player.position.coordinates[1]].Occupant == "P2")
             {
-                Console.WriteLine("Watch out, please make another move.");
+                Console.WriteLine("Watch out for other player, please make another move.");
                 moveCheck = false;
             }
             else

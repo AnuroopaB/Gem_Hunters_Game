@@ -104,21 +104,21 @@ namespace Assignment2
         //Method for making movement in board; also highlight the gem collected player cell.
         private void ChangeInBoard(string oldOccupant)
         {
-            highlightPlayer = board.highlightPlayer;
-            if (highlightPlayer == 1)
+            string passedOccupant = oldOccupant;
+            if (board.highlightPlayer == 1)
             {
                 if (oldOccupant.Contains('*'))
                 {
                     board.Grid[CurrentTurn.position.X, CurrentTurn.position.Y].Occupant = oldOccupant;
-                    highlightPlayer = 2;
+                    board.highlightPlayer = 2;
                 }
                 else
                 {
                     board.Grid[CurrentTurn.position.X, CurrentTurn.position.Y].Occupant = "*" + oldOccupant;
-                    highlightPlayer = 2;
+                    board.highlightPlayer = 2;
                 }
             }
-            else if (highlightPlayer == 2 && oldOccupant.Contains('*'))
+            else if (board.highlightPlayer == 2 && oldOccupant.Contains('*'))
             {
                 board.Grid[CurrentTurn.position.X, CurrentTurn.position.Y].Occupant = oldOccupant.Substring(1);
             }
@@ -126,6 +126,7 @@ namespace Assignment2
             {
                 board.Grid[CurrentTurn.position.X, CurrentTurn.position.Y].Occupant = oldOccupant;
             }
+            //highlightPlayer = 0;
         }
     }
 }
